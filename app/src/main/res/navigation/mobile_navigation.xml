@@ -6,20 +6,36 @@
     app:startDestination="@+id/nav_home">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="de.hawhamburg.budgettracker.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_profile"
+        android:name="de.hawhamburg.budgettracker.ui.profile.ProfileFragment"
+        android:label="@string/menu_profile"
+        tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="de.hawhamburg.budgettracker.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_planer"
+        android:name="de.hawhamburg.budgettracker.ui.planer.PlanerFragment"
+        android:label="@string/menu_planer"
+        tools:layout="@layout/fragment_planer" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="de.hawhamburg.budgettracker.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_presets"
+        android:name="de.hawhamburg.budgettracker.ui.presets.PresetsFragment"
+        android:label="@string/menu_presets"
+        tools:layout="@layout/fragment_presets" />
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="de.hawhamburg.budgettracker.ui.login.LoginFragment"
+        android:label="@string/menu_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_nav_login_to_nav_signUp"
+            app:destination="@id/nav_signUp" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_signUp"
+        android:name="de.hawhamburg.budgettracker.ui.signUp.SignUpFragment"
+        android:label="@string/menu_signUp"
+        tools:layout="@layout/fragment_signUp" />
 </navigation>

@@ -1,4 +1,4 @@
-package de.hawhamburg.budgettracker.ui.gallery;
+package de.hawhamburg.budgettracker.ui.planer;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import de.hawhamburg.budgettracker.databinding.FragmentGalleryBinding;
+import de.hawhamburg.budgettracker.databinding.FragmentPlanerBinding;
 
-public class GalleryFragment extends Fragment {
+public class PlanerFragment extends Fragment {
 
-    private FragmentGalleryBinding binding;
+    private FragmentPlanerBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        GalleryViewModel galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
+        PlanerViewModel planerViewModel =
+                new ViewModelProvider(this).get(PlanerViewModel.class);
 
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
+        binding = FragmentPlanerBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textGallery;
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textPlaner;
+        planerViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

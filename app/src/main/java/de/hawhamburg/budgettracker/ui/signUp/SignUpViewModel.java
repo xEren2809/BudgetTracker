@@ -1,16 +1,16 @@
-package de.hawhamburg.budgettracker.ui.gallery;
+package de.hawhamburg.budgettracker.ui.signUp;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class SignUpViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public SignUpViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("This is signUp fragment");
     }
 
     public LiveData<String> getText() {
