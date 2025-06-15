@@ -1,8 +1,13 @@
 package de.hawhamburg.budgettracker;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -16,7 +21,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import de.hawhamburg.budgettracker.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
+
+    private EditText mEmail;
+    private EditText mPass;
+    private Button btnLogin;
+    private TextView mForgetPassword;
+    private TextView mSignupHere;
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -27,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        loginDetails();
 
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +61,56 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    private void loginDetails(){
+
+        mEmail=findViewById(R.id.email_login);
+        mPass=findViewById(R.id.password_login);
+        btnLogin=findViewById(R.id.btn_login);
+        mForgetPassword=findViewById(R.id.forgot_password);
+        mSignupHere=findViewById(R.id.signup_reg);
+
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String email=mEmail.getText().toString().trim();
+                String pass=mPass.getText().toString().trim();
+
+                if (TextUtils.isEmpty(email)){
+                    mEmail.setError("Email required..");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(pass)){
+                    mPass.setError("Password required..");
+                    return;
+                }
+
+            }
+        });
+
+        // Registration activity
+
+        mSignupHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
+            }
+        });
+
+        //Reset password activity...
+
+        mForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ResetActivity.class));
+            }
+        });
+
+
     }
 
     @Override

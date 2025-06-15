@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".RegistrationActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,12 +19,12 @@
             android:gravity="center"
             android:layout_height="wrap_content">
 
-            <!--Log In-->
+            <!--Registration-->
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Log In"
+                android:text="Registration"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:gravity="center"
                 />
@@ -34,37 +34,29 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="Email:"
-                android:id="@+id/email_login"
+                android:id="@+id/email_reg"
                 />
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="Password:"
-                android:id="@+id/password_login"
+                android:id="@+id/password_reg"
                 />
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Log In"
-                android:id="@+id/btn_login"
+                android:text="Register"
+                android:id="@+id/btn_reg"
                 android:textAppearance="?android:textAppearanceMedium"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:id="@+id/forgot_password"
-                android:text="Forgot Password?"
-                android:padding="5dp"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:id="@+id/signup_reg"
-                android:text="Don't have account? Sign up here"
+                android:id="@+id/signin_here"
+                android:text="Already have an account? Sign In here"
                 android:padding="5dp"
                 />
 
@@ -72,7 +64,9 @@
 
         </LinearLayout>
 
+
     </ScrollView>
+
 
 
 </LinearLayout>
