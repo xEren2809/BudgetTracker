@@ -1,4 +1,4 @@
-package de.hawhamburg.budgettracker.ui.signUp;
+package de.hawhamburg.budgettracker.ui.registration;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,21 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import de.hawhamburg.budgettracker.databinding.FragmentSignUpBinding;
+import de.hawhamburg.budgettracker.databinding.FragmentRegistrationBinding;
 
-public class SignUpFragment extends Fragment {
+public class RegistrationFragment extends Fragment {
 
-    private FragmentSignUpBinding binding;
+    private FragmentRegistrationBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SignUpViewModel planerViewModel =
-                new ViewModelProvider(this).get(SignUpViewModel.class);
+        RegistrationViewModel planerViewModel =
+                new ViewModelProvider(this).get(RegistrationViewModel.class);
 
-        binding = FragmentSignUpBinding.inflate(inflater, container, false);
+        binding = FragmentRegistrationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSignUp;
+        final TextView textView = binding.textRegistration;
         planerViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }

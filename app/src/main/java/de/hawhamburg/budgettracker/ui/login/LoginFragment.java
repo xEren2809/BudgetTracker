@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import de.hawhamburg.budgettracker.databinding.FragmentLoginBinding;
-import de.hawhamburg.budgettracker.ui.login.LoginViewModel;
 
 public class LoginFragment extends Fragment {
 

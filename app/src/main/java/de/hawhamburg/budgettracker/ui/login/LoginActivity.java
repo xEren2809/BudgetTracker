@@ -1,4 +1,4 @@
-package de.hawhamburg.budgettracker;
+package de.hawhamburg.budgettracker.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import de.hawhamburg.budgettracker.R;
+import de.hawhamburg.budgettracker.ui.registration.RegistrationActivity;
+import de.hawhamburg.budgettracker.ui.reset.ResetActivity;
 import de.hawhamburg.budgettracker.databinding.ActivityMainBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -55,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_profile, R.id.nav_planer, R.id.nav_profile, R.id.nav_home)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

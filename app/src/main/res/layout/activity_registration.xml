@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity">
+    tools:context=".ui.registration.RegistrationActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:id="@+id/signin_here"
-                android:text="Already have an account? Sign In here"
+                android:text="Already have an account? Log In here"
                 android:padding="5dp"
                 />
 
