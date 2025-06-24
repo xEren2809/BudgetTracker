@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth=FirebaseAuth.getInstance();
 
+        //Nach Anmeldung braucht man nicht nochmal anmelden
+        if (mAuth.getCurrentUser()!=null){
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        }
+
         mDialog=new ProgressDialog(this);
 
         loginDetails();

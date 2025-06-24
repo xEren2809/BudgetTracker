@@ -10,7 +10,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "de.hawhamburg.budgettracker"
+        applicationId = "de.hawhamburg.budgettracker.ui"
         minSdk = 25
         targetSdk = 35
         versionCode = 1

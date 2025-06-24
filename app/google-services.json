@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "431211568663",
+    "firebase_url": "https://budgettracker-45b3c381-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "budgettracker-45b3c381",
     "storage_bucket": "budgettracker-45b3c381.firebasestorage.app"
   },
@@ -9,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:431211568663:android:30687eb0e6521b26044652",
         "android_client_info": {
-          "package_name": "de.hawhamburg.budgettracker"
+          "package_name": "de.hawhamburg.newbudgettracker"
         }
       },
       "oauth_client": [],
