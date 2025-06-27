@@ -160,6 +160,37 @@ public class DashboardFragment extends Fragment {
         return myview;
     }
 
+    // Floating button animation
+    private void ftAnimation() {
+
+        if (isFabOpen) {
+
+            fab_income_btn.startAnimation(FadeClose);
+            fab_expense_btn.startAnimation(FadeClose);
+            fab_income_btn.setClickable(false);
+            fab_expense_btn.setClickable(false);
+
+            fab_income_txt.startAnimation(FadeClose);
+            fab_expense_txt.startAnimation(FadeClose);
+            fab_income_txt.setClickable(false);
+            fab_expense_txt.setClickable(false);
+            isFabOpen = false;
+
+        } else {
+            fab_income_btn.startAnimation(FadeOpen);
+            fab_expense_btn.startAnimation(FadeOpen);
+            fab_income_btn.setClickable(true);
+            fab_expense_btn.setClickable(true);
+
+            fab_income_txt.startAnimation(FadeOpen);
+            fab_expense_txt.startAnimation(FadeOpen);
+            fab_income_txt.setClickable(true);
+            fab_expense_txt.setClickable(true);
+            isFabOpen = true;
+        }
+
+    }
+
     private void addData() {
 
         //Fab Button income
@@ -177,6 +208,8 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                expenseDataInsert();
+
             }
         });
 
@@ -188,7 +221,9 @@ public class DashboardFragment extends Fragment {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View myviewm = inflater.inflate(R.layout.custom_layout_for_insertdata, null);
         mydialog.setView(myviewm);
-        AlertDialog dialog = mydialog.create();
+        final AlertDialog dialog = mydialog.create();
+
+        dialog.setCancelable(false);
 
         EditText editAmount = myviewm.findViewById(R.id.amount_edt);
         EditText editType = myviewm.findViewById(R.id.type_edt);
@@ -230,6 +265,7 @@ public class DashboardFragment extends Fragment {
 
                 Toast.makeText(getActivity(), "Data inserted successfully", Toast.LENGTH_SHORT).show();
 
+                ftAnimation(); //remove floating button
                 dialog.dismiss();
 
 
@@ -239,7 +275,80 @@ public class DashboardFragment extends Fragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ftAnimation(); //remove floating button
                 dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    public void expenseDataInsert() {
+
+        AlertDialog.Builder mydialog = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+
+        View myview = inflater.inflate(R.layout.custom_layout_for_insertdata, null);
+
+        mydialog.setView(myview);
+        final AlertDialog dialog = mydialog.create();
+
+        dialog.setCancelable(false); //click outside doesnt cancel
+
+        EditText amount = myview.findViewById(R.id.amount_edt);
+        EditText type = myview.findViewById(R.id.type_edt);
+        EditText note = myview.findViewById(R.id.note_edt);
+
+        Button btnSave = myview.findViewById(R.id.btnSave);
+        Button btnCancel = myview.findViewById(R.id.btnCancel);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String tmAmount = amount.getText().toString().trim();
+                String tmType = type.getText().toString().trim();
+                String tmNote = note.getText().toString().trim();
+
+                if (TextUtils.isEmpty(tmAmount)) {
+                    amount.setError("Amount is required");
+                    return;
+                }
+                int outamountint = Integer.parseInt(tmAmount);
+
+                if (TextUtils.isEmpty(tmType)) {
+                    type.setError("Type is required");
+                    return;
+                }
+                if (TextUtils.isEmpty(tmNote)) {
+                    note.setError("Note is required");
+                    return;
+                }
+
+                //für Datenbank einfügen
+                String id = mExpenseDatabase.push().getKey();
+                String mDate = DateFormat.getDateInstance().format(new Date());
+
+                Data data = new Data(outamountint, tmType, tmNote, id, mDate);
+                mExpenseDatabase.child(id).setValue(data);
+
+                Toast.makeText(getActivity(), "Data inserted successfully", Toast.LENGTH_SHORT).show();
+
+                ftAnimation(); //remove floating button
+                dialog.dismiss();
+
+
+            }
+
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ftAnimation(); //remove floating button
+                dialog.dismiss();
+
             }
         });
 

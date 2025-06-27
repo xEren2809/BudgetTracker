@@ -59,6 +59,9 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
     implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.firebaseui:firebase-ui-database:8.0.2")
+    implementation("com.google.firebase:firebase-database")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 
     androidTestImplementation("androidx.test:runner:1.6.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
