@@ -1,5 +1,6 @@
 package de.hawhamburg.budgettracker.ui;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +44,23 @@ public class IncomeFragment extends Fragment {
 
     //Text view result
     private TextView incomeTotalSum;
+
+    //Update edit text
+    private EditText edtAmount;
+    private EditText edtType;
+    private EditText edtNote;
+
+    //Button for Update and Delete
+    private Button btnUpdate;
+    private Button btnDelete;
+
+    //Data item value
+    private int amount;
+    private String type;
+    private String note;
+
+    private String post_key;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,11 +98,25 @@ public class IncomeFragment extends Fragment {
 
         adapter = new FirebaseRecyclerAdapter<Data, MyViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull Data model) {
+            protected void onBindViewHolder(@NonNull MyViewHolder holder, final int position, final Data model) {
                 holder.setType(model.getType());
                 holder.setNote(model.getNote());
                 holder.setDate(model.getDate());
                 holder.setAmount(model.getAmount());
+
+                holder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        post_key = getRef(position).getKey();
+
+                        amount = model.getAmount();
+                        type = model.getType();
+                        note = model.getNote();
+                        updateDataItem();
+                    }
+                });
+
             }
 
             @NonNull
@@ -169,6 +203,50 @@ public class IncomeFragment extends Fragment {
             mAmount.setText(stamount);
         }
 
+
+    }
+
+    private void updateDataItem(){
+
+        AlertDialog.Builder mydialog = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View myview = inflater.inflate(R.layout.update_data_item, null);
+        mydialog.setView(myview);
+
+        edtAmount = myview.findViewById(R.id.amount_edt);
+        edtType = myview.findViewById(R.id.type_edt);
+        edtNote = myview.findViewById(R.id.note_edt);
+
+        //Set data to edit text
+        edtAmount.setText(String.valueOf(amount));
+        edtAmount.setSelection(String.valueOf(amount).length());
+
+        edtType.setText(type);
+        edtType.setSelection(type.length());
+
+        edtNote.setText(note);
+        edtNote.setSelection(note.length());
+
+        btnUpdate = myview.findViewById(R.id.btn_update_Update);
+        btnDelete = myview.findViewById(R.id.btn_update_Delete);
+
+        final AlertDialog dialog = mydialog.create();
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
 
     }
 }
