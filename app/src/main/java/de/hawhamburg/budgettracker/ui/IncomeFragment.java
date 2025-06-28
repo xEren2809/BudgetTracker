@@ -1,6 +1,8 @@
 package de.hawhamburg.budgettracker.ui;
 
 import android.app.AlertDialog;
+import java.text.DateFormat;
+import java.util.Date;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,8 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter_LifecycleAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.ValueEventListener;
 
+
+import java.util.Date;
 
 import de.hawhamburg.budgettracker.R;
 import de.hawhamburg.budgettracker.ui.Model.Data;
@@ -107,13 +111,17 @@ public class IncomeFragment extends Fragment {
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        int currentPosition = holder.getAdapterPosition();
+                        if (currentPosition != RecyclerView.NO_POSITION) {
+                            post_key = getRef(currentPosition).getKey();
 
-                        post_key = getRef(position).getKey();
+                            Data currentModel = getItem(currentPosition);
 
-                        amount = model.getAmount();
-                        type = model.getType();
-                        note = model.getNote();
-                        updateDataItem();
+                            amount = model.getAmount();
+                            type = model.getType();
+                            note = model.getNote();
+                            updateDataItem();
+                        }
                     }
                 });
 
@@ -143,7 +151,7 @@ public class IncomeFragment extends Fragment {
 
                     String stTotalvalue = String.valueOf(totalvalue);
 
-                    incomeTotalSum.setText(stTotalvalue);
+                    incomeTotalSum.setText(stTotalvalue+".00€");
                 }
             }
             @Override
@@ -200,7 +208,7 @@ public class IncomeFragment extends Fragment {
         private void setAmount(int amount) {
             TextView mAmount = mView.findViewById(R.id.amount_txt_income);
             String stamount = String.valueOf(amount);
-            mAmount.setText(stamount);
+            mAmount.setText(stamount+".00€");
         }
 
 
@@ -232,16 +240,35 @@ public class IncomeFragment extends Fragment {
 
         final AlertDialog dialog = mydialog.create();
 
+        //Update Income
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                String mdamount = String.valueOf(amount);
+                mdamount = edtAmount.getText().toString().trim();
+                int myAmount = Integer.parseInt(mdamount);
+
+                type = edtType.getText().toString().trim();
+                note = edtNote.getText().toString().trim();
+
+                String mDate = DateFormat.getDateInstance().format(new Date());
+
+                Data data = new Data(myAmount, type, note, post_key, mDate);
+
+                mIncomeDatabase.child(post_key).setValue(data);
+
+                dialog.dismiss();
             }
         });
 
+        //Delete Income
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                mIncomeDatabase.child(post_key).removeValue();
+
                 dialog.dismiss();
             }
         });
