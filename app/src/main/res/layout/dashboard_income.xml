@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Type:"
-            android:textColor="@color/orange"
+            android:textColor="@color/black"
             android:textAppearance="?android:textAppearanceLarge"
             android:id="@+id/type_Income_ds"
             android:gravity="center">
@@ -43,7 +43,7 @@
             android:id="@+id/date_Income_ds"
             android:padding="5dp"
             android:layout_marginTop="10dp"
-            android:textColor="@color/purple"
+            android:textColor="@color/blue2"
             android:gravity="center">
 
         </TextView>

@@ -58,6 +58,8 @@ public class IncomeFragment extends Fragment {
     private Button btnUpdate;
     private Button btnDelete;
 
+    private Button btnCancel;
+
     //Data item value
     private int amount;
     private String type;
@@ -237,6 +239,7 @@ public class IncomeFragment extends Fragment {
 
         btnUpdate = myview.findViewById(R.id.btn_update_Update);
         btnDelete = myview.findViewById(R.id.btn_update_Delete);
+        btnCancel = myview.findViewById(R.id.btn_update_Cancel);
 
         final AlertDialog dialog = mydialog.create();
 
@@ -269,6 +272,13 @@ public class IncomeFragment extends Fragment {
 
                 mIncomeDatabase.child(post_key).removeValue();
 
+                dialog.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });

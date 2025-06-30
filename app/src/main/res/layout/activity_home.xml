@@ -21,7 +21,7 @@
         android:id="@+id/navView"
         android:fitsSystemWindows="true"
         app:itemTextAppearance="?android:textAppearanceSmall"
-        app:itemIconTint="@color/blue"
+        app:itemIconTint="@color/black"
         app:menu="@menu/navmenu"
         app:headerLayout="@layout/nav_header"/>
 

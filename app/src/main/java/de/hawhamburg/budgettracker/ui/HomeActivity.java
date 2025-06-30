@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.widget.Toolbar;
 
+import androidx.core.content.ContextCompat;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -81,15 +82,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 if (itemId == R.id.dashboard) {
                     setFragment(dashboardFragment);
-                    bottomNavigationView.setItemBackgroundResource(R.color.green1);
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(HomeActivity.this, R.color.green2));
                     return true;
                 } else if (itemId == R.id.income) {
                     setFragment(incomeFragment);
-                    bottomNavigationView.setItemBackgroundResource(R.color.purple);
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(HomeActivity.this, R.color.green1));
                     return true;
                 } else if (itemId == R.id.expense) {
                     setFragment(expenseFragment);
-                    bottomNavigationView.setItemBackgroundResource(R.color.turquoise);
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(HomeActivity.this, R.color.red));
                     return true;
                 } else {
                     return false;
@@ -137,13 +138,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         if (itemId == R.id.dashboard) {
             fragment = new DashboardFragment();
+            bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.green2));
+            bottomNavigationView.setSelectedItemId(R.id.dashboard);
         } else if (itemId == R.id.income) {
             fragment = new IncomeFragment();
+            bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.green1));
+            bottomNavigationView.setSelectedItemId(R.id.income);
         } else if (itemId == R.id.expense) {
             fragment = new ExpenseFragment();
+            bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            bottomNavigationView.setSelectedItemId(R.id.expense);
+        } else if (itemId == R.id.settings) {
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
         } else if (itemId == R.id.logout) {
             mAuth.signOut();
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
 
         if (fragment != null){

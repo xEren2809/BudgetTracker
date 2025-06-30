@@ -49,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Nach Anmeldung braucht man nicht nochmal anmelden
         if (mAuth.getCurrentUser()!=null){
-            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
 
         mDialog=new ProgressDialog(this);
@@ -98,7 +101,9 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()){
 
                             mDialog.dismiss();
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            startActivity(intent);
+                            finish();
                             Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_SHORT).show();
                         }else {
                             mDialog.dismiss();

@@ -95,7 +95,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             Toast.makeText(getApplicationContext(),"Registration Complete",Toast.LENGTH_SHORT).show();
 
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                            startActivity(intent);
+
+                            finish();
 
                         }else {
 

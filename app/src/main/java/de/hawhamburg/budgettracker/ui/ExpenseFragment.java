@@ -56,6 +56,8 @@ public class ExpenseFragment extends Fragment {
     private Button btnUpdate;
     private Button btnDelete;
 
+    private Button btnCancel;
+
     //Data variable
 
     private int amount;
@@ -234,6 +236,8 @@ public class ExpenseFragment extends Fragment {
 
         btnUpdate = myview.findViewById(R.id.btn_update_Update);
         btnDelete = myview.findViewById(R.id.btn_update_Delete);
+        btnCancel = myview.findViewById(R.id.btn_update_Cancel);
+
 
         AlertDialog dialog = mydialog.create();
 
@@ -269,6 +273,8 @@ public class ExpenseFragment extends Fragment {
 
             }
         });
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
 

@@ -152,7 +152,7 @@
                         android:text="CANCEL"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@android:color/white"
-                        android:backgroundTint="@color/red"
+                        android:backgroundTint="@color/blue1"
                         android:id="@+id/btnCancel"
                         android:layout_height="wrap_content">
                     </Button>
@@ -172,7 +172,7 @@
                         android:text="SAVE"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@android:color/white"
-                        android:backgroundTint="@color/turquoise"
+                        android:backgroundTint="@color/green1"
                         android:id="@+id/btnSave"
                         android:layout_height="wrap_content">
                     </Button>

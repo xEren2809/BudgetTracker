@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="turquoise">#009688</color>
-    <color name="purple">#3F51B5</color>
-    <color name="blue">#2196F3</color>
+    <color name="red">#F44336</color>
+    <color name="blue1">#2196F3</color>
+    <color name="blue2">#3F51B5</color>
     <color name="green1">#8BC34A</color>
-    <color name="green2">#4CAF50</color>
+    <color name="green2">#D4FF00</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="grey">#FF9E9E9E</color>
-    <color name="red">#A4081B</color>
-    <color name="yellow">#FFFFEB3B</color>
-    <color name="orange">#FFFF9800</color>
-    <color name="pink">#FFE040FB</color>
-    <color name="brown">#FF795548</color>
-
 </resources>
