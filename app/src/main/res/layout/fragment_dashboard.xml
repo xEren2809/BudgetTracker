@@ -42,7 +42,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/black"
                         android:text="Income">
 
                     </TextView>
@@ -59,7 +58,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/black"
                         android:text="Expense">
 
                     </TextView>
@@ -232,7 +230,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:backgroundTint="@color/green1"
-
                 android:elevation="6dp"
                 android:src="@drawable/income"
                 android:visibility="invisible"

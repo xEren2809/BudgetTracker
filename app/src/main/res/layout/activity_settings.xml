@@ -32,22 +32,13 @@
                 android:textAlignment="center"
                 android:textSize="28sp" />
 
-            <Button
-                android:id="@+id/btn_about"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:backgroundTint="@color/green2"
-                android:text="About us"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <!-- Dark Mode Switch -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:paddingTop="10dp">
 
                 <TextView
@@ -55,13 +46,37 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Dark Mode"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="20sp"/>
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switch_dark_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="About Us"
+                    android:textSize="20sp"/>
+
+                <Button
+                    android:id="@+id/btn_about"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/green2" />
             </LinearLayout>
 
         </LinearLayout>

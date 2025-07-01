@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".ui.IncomeFragment">
 
@@ -37,7 +36,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:text="Income">
 
@@ -55,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:id="@+id/income_txt_result"
-                    android:textColor="@color/black"
+                    android:textColor="@color/green1"
                     android:layout_height="wrap_content">
 
                 </TextView>
@@ -74,5 +72,15 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/income_ft_btn"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="@color/green1"
+        app:fabSize="normal"
+        android:layout_height="wrap_content"
+        android:src="@drawable/income"/>
 
 </LinearLayout>

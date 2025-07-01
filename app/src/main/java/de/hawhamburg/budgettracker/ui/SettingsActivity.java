@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -40,6 +41,7 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
 
         toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.black));
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navView);
@@ -48,7 +50,9 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.white));
 
         Button aboutButton = findViewById(R.id.btn_about);
         aboutButton.setOnClickListener(v -> {

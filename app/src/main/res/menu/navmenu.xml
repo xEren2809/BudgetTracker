@@ -6,7 +6,8 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/dashboard"
             android:title="Dashboard"
-            android:icon="@drawable/dashboard"/> <!-- Platzhalter Icon -->
+            android:icon="@drawable/dashboard"/>
+
 
         <item android:id="@+id/income"
             android:title="Income"
@@ -18,12 +19,11 @@
 
         <item android:id="@+id/settings"
             android:title="Settings"
-            android:icon="@drawable/common_full_open_on_phone"> <!-- Platzhalter Icon -->
-        </item>
+            android:icon="?attr/actionModeCopyDrawable"/> <!-- Platzhalter Icon -->
 
         <item android:id="@+id/logout"
             android:title="Log out"
-            android:icon="@drawable/fui_ic_anonymous_white_24dp"> <!-- Platzhalter Icon -->
+            android:icon="@drawable/common_full_open_on_phone"> <!-- Platzhalter Icon -->
         </item>
     </group>
 

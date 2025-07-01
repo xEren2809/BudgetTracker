@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Type:"
-            android:textColor="@color/black"
             android:textAppearance="?android:textAppearanceLarge"
             android:id="@+id/type_Expense_ds"
             android:gravity="center">

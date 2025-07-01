@@ -55,7 +55,6 @@ public class ExpenseFragment extends Fragment {
 
     private Button btnUpdate;
     private Button btnDelete;
-
     private Button btnCancel;
 
     //Data variable

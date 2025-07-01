@@ -1,11 +1,15 @@
 package de.hawhamburg.budgettracker.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.core.content.ContextCompat;
@@ -24,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import de.hawhamburg.budgettracker.R;
 
@@ -42,6 +47,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
+        boolean darkMode = prefs.getBoolean("dark_mode", false);
+        if (darkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
@@ -49,6 +62,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setTitle("BudgetTracker");
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.black));
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -63,9 +77,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
 
         NavigationView navigationView = findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.white));
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView emailTextView = headerView.findViewById(R.id.emailTextView);
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            emailTextView.setText(user.getEmail());
+        }
 
         dashboardFragment = new DashboardFragment();
         incomeFragment = new IncomeFragment();
