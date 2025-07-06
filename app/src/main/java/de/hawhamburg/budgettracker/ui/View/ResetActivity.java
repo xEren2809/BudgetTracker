@@ -1,7 +1,6 @@
-package de.hawhamburg.budgettracker.ui;
+package de.hawhamburg.budgettracker.ui.View;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;

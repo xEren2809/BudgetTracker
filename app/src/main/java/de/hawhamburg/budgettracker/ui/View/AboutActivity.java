@@ -1,4 +1,4 @@
-package de.hawhamburg.budgettracker.ui;
+package de.hawhamburg.budgettracker.ui.View;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

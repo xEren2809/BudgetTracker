@@ -1,4 +1,4 @@
-package de.hawhamburg.budgettracker.ui;
+package de.hawhamburg.budgettracker.ui.View;
 
 import android.app.AlertDialog;
 import android.icu.text.SimpleDateFormat;

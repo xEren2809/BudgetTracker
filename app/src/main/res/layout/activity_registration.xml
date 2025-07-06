@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_height="match_parent"
-    tools:context=".ui.RegistrationActivity">
+    tools:context=".ui.View.RegistrationActivity">
 
 
     <ScrollView

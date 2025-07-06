@@ -13,22 +13,22 @@
         android:theme="@style/Theme.BudgetTracker"
         tools:targetApi="31">
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.View.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.ResetActivity"
+            android:name=".ui.View.ResetActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.RegistrationActivity"
+            android:name=".ui.View.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.View.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.AboutActivity"
+            android:name=".ui.View.AboutActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.View.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

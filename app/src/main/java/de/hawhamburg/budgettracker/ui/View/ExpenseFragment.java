@@ -1,4 +1,4 @@
-package de.hawhamburg.budgettracker.ui;
+package de.hawhamburg.budgettracker.ui.View;
 
 import android.app.AlertDialog;
 import android.icu.text.SimpleDateFormat;
@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +32,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
