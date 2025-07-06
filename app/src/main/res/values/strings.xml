@@ -6,4 +6,44 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="type_options">
+        <item>Select Typ</item>
+
+
+
+
+
+    </string-array>
+
+    <string-array name="expense_categories">
+        <item>Other</item>
+        <item>Rent</item>
+        <item>Groceries</item>
+        <item>Transportation</item>
+        <item>Free time</item>
+        <item>Meals</item>
+        <item>Debts</item>
+        <item>Salary</item>
+        <item>Taxes</item>
+        <item>Freelance</item>
+        <item>Investment</item>
+        <item>Bonus</item>
+    </string-array>
+
+    <string-array name="income_categories">
+        <item>Other</item>
+        <item>Rent</item>
+        <item>Groceries</item>
+        <item>Transportation</item>
+        <item>Free time</item>
+        <item>Meals</item>
+        <item>Debts</item>
+        <item>Salary</item>
+        <item>Taxes</item>
+        <item>Freelance</item>
+        <item>Investment</item>
+        <item>Bonus</item>
+    </string-array>
+
 </resources>

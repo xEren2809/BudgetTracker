@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,6 +20,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import de.hawhamburg.budgettracker.R;
 
@@ -52,7 +57,21 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         toggle.syncState();
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.white));
+
+        View headerView = navigationView.getHeaderView(0);
+        if (headerView != null) {
+            TextView emailTextView = headerView.findViewById(R.id.emailTextView); // Achte auf die richtige ID
+
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null && emailTextView != null) {
+                emailTextView.setText(user.getEmail());
+            } else if (emailTextView != null) {
+                emailTextView.setText("Nicht eingeloggt");
+            }
+        } else {
+            Toast.makeText(this, "HeaderView konnte nicht geladen werden", Toast.LENGTH_SHORT).show();
+        }
+
 
         Button aboutButton = findViewById(R.id.btn_about);
         aboutButton.setOnClickListener(v -> {
@@ -71,7 +90,12 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
                     isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
             );
 
-            recreate();
+            Intent intent = getIntent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
         });
     }
 
@@ -91,14 +115,17 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
             startActivity(intent);
         } else if (id == R.id.settings) {
         } else if (id == R.id.logout) {
-            SharedPreferences.Editor editor = getSharedPreferences("settings", MODE_PRIVATE).edit();
-            editor.clear();
+            SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+
+            editor.remove("logged_in");
             editor.apply();
 
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+            return true;
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);

@@ -23,7 +23,7 @@
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
         app:itemIconSize="24dp"
-        app:labelVisibilityMode="labeled"
+        app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottommenu"/>
 
 </LinearLayout>

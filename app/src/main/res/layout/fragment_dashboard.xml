@@ -198,6 +198,7 @@
                 app:fabSize="mini"
                 android:visibility="invisible"
                 app:pressedTranslationZ="12dp"
+                app:itemIconTint="@color/black"
                 android:src="@drawable/expense"/>
 
 
@@ -234,6 +235,7 @@
                 android:src="@drawable/income"
                 android:visibility="invisible"
                 app:fabSize="mini"
+                app:itemIconTint="@color/black"
                 app:pressedTranslationZ="12dp" />
 
 
@@ -246,9 +248,10 @@
             android:layout_marginBottom="16dp"
             android:layout_marginRight="20dp"
             android:backgroundTint="@color/blue1"
+            app:itemIconTint="@color/black"
             app:fabSize="normal"
             android:layout_height="wrap_content"
-            android:src="@drawable/fui_ic_mail_white_24dp"/> <!-- Platzhalter Icon -->
+            android:src="@drawable/main"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

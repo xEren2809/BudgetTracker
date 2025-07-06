@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="About us"
+            android:text="About Us"
             android:textAlignment="center"
             android:textSize="28sp" />
 

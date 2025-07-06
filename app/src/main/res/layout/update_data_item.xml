@@ -44,6 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/amount_edt"
+                        android:inputType="numberDecimal"
                         android:hint="Enter amount">
 
                     </EditText>
@@ -82,13 +83,12 @@
                     android:layout_margin="10dp"
                     android:layout_height="wrap_content">
 
-                    <EditText
+                    <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/type_edt"
-                        android:hint="Enter type">
-
-                    </EditText>
+                        android:id="@+id/type_spinner"
+                        android:spinnerMode="dropdown"
+                        android:hint="Select type"/>
 
 
                 </RelativeLayout>
@@ -126,6 +126,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="text"
                         android:id="@+id/note_edt"
                         android:hint="Enter a note">
 

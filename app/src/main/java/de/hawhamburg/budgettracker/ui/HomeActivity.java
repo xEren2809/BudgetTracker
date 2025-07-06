@@ -81,7 +81,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.white));
 
         View headerView = navigationView.getHeaderView(0);
         TextView emailTextView = headerView.findViewById(R.id.emailTextView);

@@ -64,6 +64,41 @@
 
     </androidx.cardview.widget.CardView>
 
+    <!-- Sortierleiste -->
+    <LinearLayout
+        android:id="@+id/sort_buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_sort_date"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:text="Date"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_sort_type"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:text="Type"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_sort_amount"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:text="Amount"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_id_expense"
         android:layout_width="match_parent"
@@ -71,7 +106,6 @@
         android:layout_weight="1">
 
     </androidx.recyclerview.widget.RecyclerView>
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:id="@+id/expense_ft_btn"
@@ -81,5 +115,7 @@
             android:backgroundTint="@color/red"
             app:fabSize="normal"
             android:layout_height="wrap_content"
+            app:itemIconTint="@color/black"
             android:src="@drawable/expense"/>
+
 </LinearLayout>

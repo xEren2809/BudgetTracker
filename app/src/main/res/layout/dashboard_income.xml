@@ -26,6 +26,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/green1"
             android:text="Amount:"
             android:textAppearance="?android:textAppearanceMedium"
             android:id="@+id/amount_Income_ds"

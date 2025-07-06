@@ -1,6 +1,7 @@
 package de.hawhamburg.budgettracker.ui;
 
 import android.app.AlertDialog;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +33,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 
 import de.hawhamburg.budgettracker.R;
 import de.hawhamburg.budgettracker.ui.Model.Data;
@@ -159,16 +164,14 @@ public class DashboardFragment extends Fragment {
                 int totalSum = 0;
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
                     Data data = dataSnapshot.getValue(Data.class);
-
                     totalSum += data.getAmount();
-
-                    String stTotalSum = String.valueOf(totalSum);
-
-                    totalIncomeResult.setText(stTotalSum+".00€");
                 }
+
+                String stTotalSum = String.valueOf(totalSum);
+                totalIncomeResult.setText(stTotalSum + ".00€");
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -193,6 +196,27 @@ public class DashboardFragment extends Fragment {
                     totalExpenseResult.setText(stTotalSum+".00€");
                 }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        mExpenseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                int totalSum = 0;
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Data data = dataSnapshot.getValue(Data.class);
+                    totalSum += data.getAmount();
+                }
+
+                String stTotalSum = String.valueOf(totalSum);
+                totalExpenseResult.setText(stTotalSum + ".00€");
+            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -276,7 +300,6 @@ public class DashboardFragment extends Fragment {
     }
 
     public void incomeDataInsert() {
-
         AlertDialog.Builder mydialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View myviewm = inflater.inflate(R.layout.custom_layout_for_insertdata, null);
@@ -286,8 +309,14 @@ public class DashboardFragment extends Fragment {
         dialog.setCancelable(false);
 
         EditText editAmount = myviewm.findViewById(R.id.amount_edt);
-        EditText editType = myviewm.findViewById(R.id.type_edt);
+        Spinner spinnerType = myviewm.findViewById(R.id.type_spinner);
         EditText editNote = myviewm.findViewById(R.id.note_edt);
+
+        // Spinner mit Kategorien füllen
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.income_categories, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerType.setAdapter(adapter);
 
         Button btnSave = myviewm.findViewById(R.id.btnSave);
         Button btnCancel = myviewm.findViewById(R.id.btnCancel);
@@ -296,18 +325,13 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String amount = editAmount.getText().toString().trim();
-                String type = editType.getText().toString().trim();
+                String tmType = spinnerType.getSelectedItem().toString();
                 String note = editNote.getText().toString().trim();
 
                 if (TextUtils.isEmpty(amount)) {
                     editAmount.setError("Amount is required");
                     return;
                 }
-                if (TextUtils.isEmpty(type)) {
-                    editType.setError("Type is required");
-                    return;
-                }
-
                 int outamountint = Integer.parseInt(amount);
 
                 if (TextUtils.isEmpty(note)) {
@@ -319,29 +343,26 @@ public class DashboardFragment extends Fragment {
 
                 String mDate = DateFormat.getDateInstance().format(new Date());
 
-                Data data = new Data(outamountint, type, note, id, mDate);
+                Data data = new Data(outamountint, tmType, note, id, mDate);
 
                 mIncomeDatabase.child(id).setValue(data);
 
                 Toast.makeText(getActivity(), "Data inserted successfully", Toast.LENGTH_SHORT).show();
 
-                ftAnimation(); //remove floating button
+                ftAnimation(); // Floating Button verstecken
                 dialog.dismiss();
-
-
             }
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ftAnimation(); //remove floating button
+                ftAnimation();
                 dialog.dismiss();
             }
         });
 
         dialog.show();
-
     }
 
     public void expenseDataInsert() {
@@ -354,21 +375,25 @@ public class DashboardFragment extends Fragment {
         mydialog.setView(myview);
         final AlertDialog dialog = mydialog.create();
 
-        dialog.setCancelable(false); //click outside doesnt cancel
+        dialog.setCancelable(false);
 
         EditText amount = myview.findViewById(R.id.amount_edt);
-        EditText type = myview.findViewById(R.id.type_edt);
+        Spinner spinnerType = myview.findViewById(R.id.type_spinner);
         EditText note = myview.findViewById(R.id.note_edt);
 
         Button btnSave = myview.findViewById(R.id.btnSave);
         Button btnCancel = myview.findViewById(R.id.btnCancel);
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.expense_categories, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerType.setAdapter(adapter);
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String tmAmount = amount.getText().toString().trim();
-                String tmType = type.getText().toString().trim();
+                String tmType = spinnerType.getSelectedItem().toString();
                 String tmNote = note.getText().toString().trim();
 
                 if (TextUtils.isEmpty(tmAmount)) {
@@ -377,16 +402,11 @@ public class DashboardFragment extends Fragment {
                 }
                 int outamountint = Integer.parseInt(tmAmount);
 
-                if (TextUtils.isEmpty(tmType)) {
-                    type.setError("Type is required");
-                    return;
-                }
                 if (TextUtils.isEmpty(tmNote)) {
                     note.setError("Note is required");
                     return;
                 }
 
-                //für Datenbank einfügen
                 String id = mExpenseDatabase.push().getKey();
                 String mDate = DateFormat.getDateInstance().format(new Date());
 
@@ -395,25 +415,17 @@ public class DashboardFragment extends Fragment {
 
                 Toast.makeText(getActivity(), "Data inserted successfully", Toast.LENGTH_SHORT).show();
 
-                ftAnimation(); //remove floating button
+                ftAnimation(); // Floating Button verstecken
                 dialog.dismiss();
-
-
             }
-
         });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ftAnimation(); //remove floating button
-                dialog.dismiss();
-
-            }
+        btnCancel.setOnClickListener(v -> {
+            ftAnimation();
+            dialog.dismiss();
         });
 
         dialog.show();
-
     }
 
     @Override
@@ -487,9 +499,17 @@ public class DashboardFragment extends Fragment {
             String stAmount = String.valueOf(amount);
             mAmount.setText(stAmount+".00€");
         }
-        public void setIncomeDate(String date){
+        public void setIncomeDate(String date) {
             TextView mDate = mIncomeView.findViewById(R.id.date_Income_ds);
-            mDate.setText(date);
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date parsedDate = sdf.parse(date);
+                SimpleDateFormat outputFormat = new SimpleDateFormat("d. MMMM yyyy", Locale.GERMANY);
+                String formattedDate = outputFormat.format(parsedDate);
+                mDate.setText(formattedDate);
+            } catch (ParseException e) {
+                mDate.setText(date); // Fallback: Originaltext anzeigen
+            }
         }
     }
 
@@ -514,11 +534,17 @@ public class DashboardFragment extends Fragment {
             String stAmount = String.valueOf(amount);
             mAmount.setText(stAmount+".00€");
         }
-        public void setExpenseDate(String date){
+        public void setExpenseDate(String date) {
             TextView mDate = mExpenseView.findViewById(R.id.date_Expense_ds);
-            mDate.setText(date);
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date parsedDate = sdf.parse(date);
+                SimpleDateFormat outputFormat = new SimpleDateFormat("d. MMMM yyyy", Locale.GERMANY);
+                String formattedDate = outputFormat.format(parsedDate);
+                mDate.setText(formattedDate);
+            } catch (ParseException e) {
+                mDate.setText(date);
+            }
         }
     }
-
-
 }

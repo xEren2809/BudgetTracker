@@ -2,6 +2,8 @@ package de.hawhamburg.budgettracker.ui;
 
 import android.app.AlertDialog;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import android.os.Bundle;
 
@@ -16,7 +18,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,12 +30,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerAdapter_LifecycleAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.Date;
+import java.util.Locale;
 
 import de.hawhamburg.budgettracker.R;
 import de.hawhamburg.budgettracker.ui.Model.Data;
@@ -51,7 +58,8 @@ public class IncomeFragment extends Fragment {
 
     //Update edit text
     private EditText edtAmount;
-    private EditText edtType;
+    private Spinner edtType;  // statt EditText
+
     private EditText edtNote;
 
     //Button for Update and Delete
@@ -66,6 +74,11 @@ public class IncomeFragment extends Fragment {
     private String note;
 
     private String post_key;
+
+    private FloatingActionButton fabAddIncome;
+
+    private String currentSortField = "date"; // Standard-Sortierung
+    private boolean sortAscending = true; // Start mit aufsteigend
 
 
     @Override
@@ -91,16 +104,38 @@ public class IncomeFragment extends Fragment {
 
         recyclerView = myview.findViewById(R.id.recycler_id_income);
 
+        Button btnSortAmount = myview.findViewById(R.id.btn_sort_amount);
+        Button btnSortType = myview.findViewById(R.id.btn_sort_type);
+        Button btnSortDate = myview.findViewById(R.id.btn_sort_date);
+
+        btnSortAmount.setOnClickListener(v -> loadDataSorted("amount"));
+        btnSortType.setOnClickListener(v -> loadDataSorted("type"));
+        btnSortDate.setOnClickListener(v -> loadDataSorted("date"));
+
+        recyclerView = myview.findViewById(R.id.recycler_id_income);
+
+        initAdapter();
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setReverseLayout(!sortAscending); // <- wichtig
+        layoutManager.setStackFromEnd(true);
 
         layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
         FirebaseRecyclerOptions<Data> options = new FirebaseRecyclerOptions.Builder<Data>()
                 .setQuery(mIncomeDatabase, Data.class)
                 .build();
+
+        fabAddIncome = myview.findViewById(R.id.income_ft_btn);
+
+        fabAddIncome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddIncomeDialog(); // Methode zum Hinzufügen neuer Daten
+            }
+        });
 
         adapter = new FirebaseRecyclerAdapter<Data, MyViewHolder>(options) {
             @Override
@@ -146,21 +181,18 @@ public class IncomeFragment extends Fragment {
                 int totalvalue = 0;
 
                 for (DataSnapshot mysnapshot : snapshot.getChildren()) {
-
                     Data data = mysnapshot.getValue(Data.class);
-
                     totalvalue += data.getAmount();
-
-                    String stTotalvalue = String.valueOf(totalvalue);
-
-                    incomeTotalSum.setText(stTotalvalue+".00€");
                 }
+
+                String stTotalvalue = String.valueOf(totalvalue);
+                incomeTotalSum.setText(stTotalvalue + ".00€");
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Optional: Fehlerbehandlung
             }
-
         });
 
         return myview;
@@ -201,12 +233,19 @@ public class IncomeFragment extends Fragment {
             mNote.setText(note);
 
         }
-        private void setDate(String date){
-
+        private void setDate(String date) {
             TextView mDate = mView.findViewById(R.id.date_txt_income);
-            mDate.setText(date);
-
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date parsedDate = sdf.parse(date);
+                SimpleDateFormat outputFormat = new SimpleDateFormat("d. MMMM yyyy", Locale.GERMANY);
+                String formattedDate = outputFormat.format(parsedDate);
+                mDate.setText(formattedDate);
+            } catch (ParseException e) {
+                mDate.setText(date); // Fallback
+            }
         }
+
         private void setAmount(int amount) {
             TextView mAmount = mView.findViewById(R.id.amount_txt_income);
             String stamount = String.valueOf(amount);
@@ -216,7 +255,7 @@ public class IncomeFragment extends Fragment {
 
     }
 
-    private void updateDataItem(){
+    private void updateDataItem() {
 
         AlertDialog.Builder mydialog = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -224,15 +263,21 @@ public class IncomeFragment extends Fragment {
         mydialog.setView(myview);
 
         edtAmount = myview.findViewById(R.id.amount_edt);
-        edtType = myview.findViewById(R.id.type_edt);
+        edtType = myview.findViewById(R.id.type_spinner); // Spinner statt EditText
         edtNote = myview.findViewById(R.id.note_edt);
 
-        //Set data to edit text
+        // Spinner mit Kategorien füllen
+        ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(getContext(),
+                R.array.income_categories, android.R.layout.simple_spinner_item);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        edtType.setAdapter(adapterSpinner);
+
+        // Daten setzen
         edtAmount.setText(String.valueOf(amount));
         edtAmount.setSelection(String.valueOf(amount).length());
 
-        edtType.setText(type);
-        edtType.setSelection(type.length());
+        int spinnerPosition = adapterSpinner.getPosition(type);
+        edtType.setSelection(spinnerPosition);
 
         edtNote.setText(note);
         edtNote.setSelection(note.length());
@@ -243,21 +288,19 @@ public class IncomeFragment extends Fragment {
 
         final AlertDialog dialog = mydialog.create();
 
-        //Update Income
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String mdamount = String.valueOf(amount);
-                mdamount = edtAmount.getText().toString().trim();
+                String mdamount = edtAmount.getText().toString().trim();
                 int myAmount = Integer.parseInt(mdamount);
 
-                type = edtType.getText().toString().trim();
-                note = edtNote.getText().toString().trim();
+                String myType = edtType.getSelectedItem().toString();
+                String myNote = edtNote.getText().toString().trim();
 
-                String mDate = DateFormat.getDateInstance().format(new Date());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String mDate = sdf.format(new Date());
 
-                Data data = new Data(myAmount, type, note, post_key, mDate);
+                Data data = new Data(myAmount, myType, myNote, post_key, mDate);
 
                 mIncomeDatabase.child(post_key).setValue(data);
 
@@ -265,12 +308,70 @@ public class IncomeFragment extends Fragment {
             }
         });
 
-        //Delete Income
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 mIncomeDatabase.child(post_key).removeValue();
+                dialog.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void showAddIncomeDialog() {
+        AlertDialog.Builder mydialog = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View myview = inflater.inflate(R.layout.custom_layout_for_insertdata, null);
+        mydialog.setView(myview);
+
+        final AlertDialog dialog = mydialog.create();
+        dialog.setCancelable(false);
+
+        EditText amount = myview.findViewById(R.id.amount_edt);
+        Spinner spinnerType = myview.findViewById(R.id.type_spinner); // Spinner statt EditText
+        EditText note = myview.findViewById(R.id.note_edt);
+        Button btnSave = myview.findViewById(R.id.btnSave);
+        Button btnCancel = myview.findViewById(R.id.btnCancel);
+
+        // Spinner mit Kategorien füllen
+        ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(getActivity(),
+                R.array.income_categories, android.R.layout.simple_spinner_item);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerType.setAdapter(adapterSpinner);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tmAmount = amount.getText().toString().trim();
+                String tmType = spinnerType.getSelectedItem().toString();
+                String tmNote = note.getText().toString().trim();
+
+                if (tmAmount.isEmpty()) {
+                    amount.setError("Amount is required");
+                    return;
+                }
+
+                int outamountint = Integer.parseInt(tmAmount);
+
+                if (tmNote.isEmpty()) {
+                    note.setError("Note is required");
+                    return;
+                }
+
+                String id = mIncomeDatabase.push().getKey();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String mDate = sdf.format(new Date());
+
+                Data data = new Data(outamountint, tmType, tmNote, id, mDate);
+                mIncomeDatabase.child(id).setValue(data);
 
                 dialog.dismiss();
             }
@@ -284,6 +385,72 @@ public class IncomeFragment extends Fragment {
         });
 
         dialog.show();
+    }
 
+    private void initAdapter() {
+        Query query;
+
+        switch (currentSortField) {
+            case "amount":
+                query = mIncomeDatabase.orderByChild("amount");
+                break;
+            case "type":
+                query = mIncomeDatabase.orderByChild("type");
+                break;
+            case "date":
+            default:
+                query = mIncomeDatabase.orderByChild("date");
+                break;
+        }
+
+        FirebaseRecyclerOptions<Data> options = new FirebaseRecyclerOptions.Builder<Data>()
+                .setQuery(query, Data.class)
+                .build();
+
+        adapter = new FirebaseRecyclerAdapter<Data, MyViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull MyViewHolder holder, final int position, final Data model) {
+                // Berechne "echte" Position je nach Sortierrichtung
+                int realPosition = sortAscending ? position : getItemCount() - 1 - position;
+                Data item = getItem(realPosition);
+
+                holder.setType(item.getType());
+                holder.setNote(item.getNote());
+                holder.setDate(item.getDate());
+                holder.setAmount(item.getAmount());
+
+                holder.mView.setOnClickListener(v -> {
+                    post_key = getRef(realPosition).getKey();
+                    amount = item.getAmount();
+                    type = item.getType();
+                    note = item.getNote();
+                    updateDataItem();
+                });
+            }
+
+            @NonNull
+            @Override
+            public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.income_recycler_data, parent, false);
+                return new MyViewHolder(view);
+            }
+        };
+
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
+    }
+
+    private void loadDataSorted(String sortBy) {
+        if (sortBy.equals(currentSortField)) {
+            // Selbes Feld → Richtung umkehren
+            sortAscending = !sortAscending;
+        } else {
+            // Neues Feld → Standardrichtung aufsteigend
+            currentSortField = sortBy;
+            sortAscending = true;
+        }
+
+        adapter.stopListening();
+        initAdapter();
     }
 }
