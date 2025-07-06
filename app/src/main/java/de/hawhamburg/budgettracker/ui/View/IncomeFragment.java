@@ -56,7 +56,7 @@ public class IncomeFragment extends Fragment {
 
     //Update edit text
     private EditText edtAmount;
-    private Spinner edtType;  // statt EditText
+    private Spinner edtType;
 
     private EditText edtNote;
 
@@ -75,8 +75,8 @@ public class IncomeFragment extends Fragment {
 
     private FloatingActionButton fabAddIncome;
 
-    private String currentSortField = "date"; // Standard-Sortierung
-    private boolean sortAscending = true; // Start mit aufsteigend
+    private String currentSortField = "date";
+    private boolean sortAscending = true;
 
 
     @Override
@@ -87,17 +87,15 @@ public class IncomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View myview = inflater.inflate(R.layout.fragment_income, container, false);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = mAuth.getCurrentUser();
         String uid = mUser.getUid();
 
-        //Unique UserID info
         mIncomeDatabase = FirebaseDatabase.getInstance().getReference().child("IncomeData").child(uid);
 
-        //Income Summe
         incomeTotalSum = myview.findViewById(R.id.income_txt_result);
 
         recyclerView = myview.findViewById(R.id.recycler_id_income);
@@ -189,7 +187,6 @@ public class IncomeFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Optional: Fehlerbehandlung
             }
         });
 
@@ -240,7 +237,7 @@ public class IncomeFragment extends Fragment {
                 String formattedDate = outputFormat.format(parsedDate);
                 mDate.setText(formattedDate);
             } catch (ParseException e) {
-                mDate.setText(date); // Fallback
+                mDate.setText(date);
             }
         }
 
@@ -261,16 +258,14 @@ public class IncomeFragment extends Fragment {
         mydialog.setView(myview);
 
         edtAmount = myview.findViewById(R.id.amount_edt);
-        edtType = myview.findViewById(R.id.type_spinner); // Spinner statt EditText
+        edtType = myview.findViewById(R.id.type_spinner);
         edtNote = myview.findViewById(R.id.note_edt);
 
-        // Spinner mit Kategorien füllen
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(getContext(),
                 R.array.income_categories, android.R.layout.simple_spinner_item);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         edtType.setAdapter(adapterSpinner);
 
-        // Daten setzen
         edtAmount.setText(String.valueOf(amount));
         edtAmount.setSelection(String.valueOf(amount).length());
 
@@ -339,7 +334,6 @@ public class IncomeFragment extends Fragment {
         Button btnSave = myview.findViewById(R.id.btnSave);
         Button btnCancel = myview.findViewById(R.id.btnCancel);
 
-        // Spinner mit Kategorien füllen
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(getActivity(),
                 R.array.income_categories, android.R.layout.simple_spinner_item);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

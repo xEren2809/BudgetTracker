@@ -48,7 +48,6 @@
                 android:textColor="@color/black"
                 android:textAppearance="?android:textAppearanceMedium" />
 
-            <!-- Neue Felder, am Anfang unsichtbar -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/old_password_layout"
                 android:layout_width="match_parent"

@@ -20,8 +20,6 @@
             android:gravity="center"
             android:layout_height="wrap_content">
 
-            <!--Registration-->
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

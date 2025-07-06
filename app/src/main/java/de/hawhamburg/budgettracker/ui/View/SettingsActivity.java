@@ -59,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
 
         View headerView = navigationView.getHeaderView(0);
         if (headerView != null) {
-            TextView emailTextView = headerView.findViewById(R.id.emailTextView); // Achte auf die richtige ID
+            TextView emailTextView = headerView.findViewById(R.id.emailTextView);
 
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null && emailTextView != null) {
@@ -79,28 +79,33 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         });
 
         SwitchCompat switchDarkMode = findViewById(R.id.switch_dark_mode);
+        switchDarkMode.setOnCheckedChangeListener(null);
         switchDarkMode.setChecked(darkMode);
-        switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("dark_mode", isChecked);
-            editor.apply();
+        switchDarkMode.post(() -> switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked != darkMode) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("dark_mode", isChecked);
+                editor.apply();
 
-            AppCompatDelegate.setDefaultNightMode(
-                    isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
-            );
+                AppCompatDelegate.setDefaultNightMode(
+                        isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
+                );
 
-            Intent intent = getIntent();
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(intent);
-            overridePendingTransition(0, 0);
-        });
+                Intent intent = getIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        }));
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+
+        drawerLayout.closeDrawer(GravityCompat.START);
 
         if (id == R.id.dashboard) {
             startActivity(new Intent(this, HomeActivity.class));
@@ -114,17 +119,13 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
             startActivity(intent);
         } else if (id == R.id.settings) {
         } else if (id == R.id.logout) {
+            FirebaseAuth.getInstance().signOut();
             SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-
-            editor.remove("logged_in");
-            editor.apply();
-
-            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+            prefs.edit().remove("logged_in").apply();
+            Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
-            return true;
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);

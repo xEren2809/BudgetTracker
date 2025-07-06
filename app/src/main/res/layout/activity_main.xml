@@ -20,8 +20,6 @@
             android:gravity="center"
             android:layout_height="wrap_content">
 
-            <!--Log In-->
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,8 +80,6 @@
                 android:text="Don't have account? Sign up here"
                 android:padding="5dp"
                 />
-
-
 
         </LinearLayout>
 

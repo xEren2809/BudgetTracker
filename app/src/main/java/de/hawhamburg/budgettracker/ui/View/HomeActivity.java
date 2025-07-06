@@ -39,7 +39,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private FrameLayout frameLayout;
 
     //Fragment
-
     private DashboardFragment dashboardFragment;
     private IncomeFragment incomeFragment;
     private ExpenseFragment expenseFragment;
@@ -93,8 +92,31 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         incomeFragment = new IncomeFragment();
         expenseFragment = new ExpenseFragment();
 
-        // Set Dashboard Fragment as default
-        setFragment(dashboardFragment);
+        String fragment = getIntent().getStringExtra("fragment");
+
+        if (fragment != null) {
+            switch (fragment) {
+                case "income":
+                    setFragment(incomeFragment);
+                    bottomNavigationView.setSelectedItemId(R.id.income);
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.green1));
+                    break;
+                case "expense":
+                    setFragment(expenseFragment);
+                    bottomNavigationView.setSelectedItemId(R.id.expense);
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+                    break;
+                default:
+                    setFragment(dashboardFragment);
+                    bottomNavigationView.setSelectedItemId(R.id.dashboard);
+                    bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.green2));
+                    break;
+            }
+        } else {
+            setFragment(dashboardFragment);
+            bottomNavigationView.setSelectedItemId(R.id.dashboard);
+            bottomNavigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.green2));
+        }
 
         // Bottom Navigation Bar ändert Farbe auf click
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

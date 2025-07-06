@@ -73,7 +73,7 @@ public class ExpenseFragment extends Fragment {
     private FloatingActionButton fabAddExpense;
 
     private String currentSortField = "date";
-    private boolean sortAscending = true; // Standard: aufsteigend
+    private boolean sortAscending = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class ExpenseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View myview = inflater.inflate(R.layout.fragment_expense, container, false);
 
         mAuth = FirebaseAuth.getInstance();
@@ -248,16 +248,14 @@ public class ExpenseFragment extends Fragment {
         mydialog.setView(myview);
 
         edtAmount = myview.findViewById(R.id.amount_edt);
-        edtType = myview.findViewById(R.id.type_spinner); // Spinner statt EditText
+        edtType = myview.findViewById(R.id.type_spinner);
         edtNote = myview.findViewById(R.id.note_edt);
 
-        // Spinner mit Kategorien füllen
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.expense_categories, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         edtType.setAdapter(adapter);
 
-        // Setze aktuellen Typ im Spinner (Index finden)
         int spinnerPosition = adapter.getPosition(type);
         edtType.setSelection(spinnerPosition);
 
@@ -317,7 +315,7 @@ public class ExpenseFragment extends Fragment {
         dialog.setCancelable(false);
 
         EditText amount = myview.findViewById(R.id.amount_edt);
-        Spinner spinnerType = myview.findViewById(R.id.type_spinner); // Spinner statt EditText
+        Spinner spinnerType = myview.findViewById(R.id.type_spinner);
         EditText note = myview.findViewById(R.id.note_edt);
         Button btnSave = myview.findViewById(R.id.btnSave);
         Button btnCancel = myview.findViewById(R.id.btnCancel);
@@ -421,10 +419,8 @@ public class ExpenseFragment extends Fragment {
 
     private void loadDataSorted(String sortBy) {
         if (sortBy.equals(currentSortField)) {
-            // Gleicher Button erneut → Richtung umkehren
             sortAscending = !sortAscending;
         } else {
-            // Neuer Sortierwert → Richtung zurücksetzen
             currentSortField = sortBy;
             sortAscending = true;
         }

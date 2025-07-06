@@ -70,12 +70,10 @@ public class ResetActivity extends AppCompatActivity {
             newPasswordLayout.setVisibility(View.VISIBLE);
             btnResetPassword.setVisibility(View.VISIBLE);
 
-            // Email + Continue Button ausblenden
             mEmailReset.setEnabled(false);
             btnContinue.setVisibility(View.GONE);
         });
 
-        // Schritt 2: Passwort ändern
         btnResetPassword.setOnClickListener(v -> {
             String oldPass = mOldPassword.getText().toString().trim();
             String newPass = mNewPassword.getText().toString().trim();

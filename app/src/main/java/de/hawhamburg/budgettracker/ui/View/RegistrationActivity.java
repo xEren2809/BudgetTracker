@@ -35,8 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private ProgressDialog mDialog;
 
-    //Firebase...
-
+    //Firebase
     private FirebaseAuth mAuth;
 
     @Override
