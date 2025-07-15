@@ -35,6 +35,11 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
+
+
 }
 
 dependencies {
@@ -66,4 +71,6 @@ dependencies {
 
     androidTestImplementation("androidx.test:runner:1.6.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
+    testImplementation ("org.junit.jupiter:junit-jupiter:5.10.0")
+
 }
