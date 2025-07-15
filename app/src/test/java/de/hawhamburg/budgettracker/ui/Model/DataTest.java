@@ -1,6 +1,5 @@
 package de.hawhamburg.budgettracker.ui.Model;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import junit.framework.TestCase;
 
